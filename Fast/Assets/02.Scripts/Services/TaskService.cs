@@ -94,8 +94,7 @@ namespace Services
         /// <returns>true success on save, false otherwise</returns>
         public bool SaveTask(Task task)
         {
-            string filePath = Path.Combine(_taskFolder, task.id + ".json"); 
-            task.UpdateFilePath(filePath); // update before serialize always
+            string filePath = Path.Combine(_taskFolder, task.id + ".json");
             string jsonText = JsonUtility.ToJson(task.Serialize(), true);
 
             if (File.Exists(filePath))
@@ -131,29 +130,27 @@ namespace Services
         /// <returns>true success</returns>
         public bool UpdateTask(Task task)
         {
-            if (!task.hasFilePath)
-                task.UpdateFilePath(Path.Combine(_taskFolder, task.id + ".json"));
+            return false;
+            //if (!File.Exists(task.filePath))
+            //{
+            //    Debug.LogError($"Can't update task, file not found path: {task.filePath}");
+            //    return false;
+            //}
 
-            if (!File.Exists(task.filePath))
-            {
-                Debug.LogError($"Can't update task, file not found path: {task.filePath}");
-                return false;
-            }
+            //string jsonText = JsonUtility.ToJson(task.Serialize(), true);
+            //File.WriteAllText(task.filePath, jsonText);
 
-            string jsonText = JsonUtility.ToJson(task.Serialize(), true);
-            File.WriteAllText(task.filePath, jsonText);
-
-            if (File.Exists(task.filePath))
-            {
-                Debug.Log($"File update with success {task.id}");
-                listDirty = true;
-                return true;
-            }
-            else
-            {
-                Debug.LogError($"Unexpected error on save task {task.id}, path: {task.filePath}");
-                return false;
-            }
+            //if (File.Exists(task.filePath))
+            //{
+            //    Debug.Log($"File update with success {task.id}");
+            //    listDirty = true;
+            //    return true;
+            //}
+            //else
+            //{
+            //    Debug.LogError($"Unexpected error on save task {task.id}, path: {task.filePath}");
+            //    return false;
+            //}
         }
 
         public void SetListCategory(TaskCategory category)

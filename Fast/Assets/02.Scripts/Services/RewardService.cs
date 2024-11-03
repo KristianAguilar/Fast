@@ -90,7 +90,6 @@ namespace Services
         public bool SaveTask(Reward reward)
         {
             string filePath = Path.Combine(_rewardsFolderPath, reward.id + ".json");
-            reward.UpdateFilePath(filePath); // update before serialize always
             string jsonText = JsonUtility.ToJson(reward.Serialize(), true);
 
             if (File.Exists(filePath))
@@ -126,29 +125,30 @@ namespace Services
         /// <returns>true success</returns>
         public bool UpdateReward(Reward reward)
         {
-            if (!reward.hasFilePath)
-                reward.UpdateFilePath(Path.Combine(_rewardsFolderPath, reward.id + ".json"));
+            return false;
+            //if (!reward.hasFilePath)
+            //    reward.UpdateFilePath(Path.Combine(_rewardsFolderPath, reward.id + ".json"));
 
-            if (!File.Exists(reward.filePath))
-            {
-                Debug.LogError($"Can't update task, file not found path: {reward.filePath}");
-                return false;
-            }
+            //if (!File.Exists(reward.filePath))
+            //{
+            //    Debug.LogError($"Can't update task, file not found path: {reward.filePath}");
+            //    return false;
+            //}
 
-            string jsonText = JsonUtility.ToJson(reward.Serialize(), true);
-            File.WriteAllText(reward.filePath, jsonText);
+            //string jsonText = JsonUtility.ToJson(reward.Serialize(), true);
+            //File.WriteAllText(reward.filePath, jsonText);
 
-            if (File.Exists(reward.filePath))
-            {
-                Debug.Log($"File update with success {reward.id}");
-                listDirty = true;
-                return true;
-            }
-            else
-            {
-                Debug.LogError($"Unexpected error on save task {reward.id}, path: {reward.filePath}");
-                return false;
-            }
+            //if (File.Exists(reward.filePath))
+            //{
+            //    Debug.Log($"File update with success {reward.id}");
+            //    listDirty = true;
+            //    return true;
+            //}
+            //else
+            //{
+            //    Debug.LogError($"Unexpected error on save task {reward.id}, path: {reward.filePath}");
+            //    return false;
+            //}
         }
     }
 }

@@ -158,6 +158,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &12619059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 12619061}
+  - component: {fileID: 12619060}
+  m_Layer: 0
+  m_Name: AppDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &12619060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12619059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d0180bb9114c04db780dad904b5bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &12619061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12619059}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &23465679
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +877,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 181554928}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AppScreenManager, Assembly-CSharp
         m_MethodName: ChangeToScreen
         m_Mode: 2
@@ -1467,7 +1511,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: UpdateTasks
+        m_MethodName: RequestNewState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2497,7 +2541,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3783,9 +3827,8 @@ GameObject:
   - component: {fileID: 181554926}
   - component: {fileID: 181554925}
   - component: {fileID: 181554924}
-  - component: {fileID: 181554928}
   m_Layer: 5
-  m_Name: Screens
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3870,6 +3913,7 @@ RectTransform:
   - {fileID: 1226858545}
   - {fileID: 1892241077}
   - {fileID: 753009141}
+  - {fileID: 1731596991}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3877,22 +3921,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &181554928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181554923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53b53b629fed11e4bb7d8cacaedbc888, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _screens:
-  - {fileID: 1284051170}
-  - {fileID: 1892241076}
-  _firstActiveScene: {fileID: 1284051170}
 --- !u!1 &184010019
 GameObject:
   m_ObjectHideFlags: 0
@@ -4514,7 +4542,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6478,7 +6506,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10035,7 +10063,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11552,7 +11580,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23529,10 +23557,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1228626672}
-  - component: {fileID: 1228626673}
   - component: {fileID: 1228626674}
   - component: {fileID: 1228626675}
-  - component: {fileID: 1228626676}
   m_Layer: 0
   m_Name: Services
   m_TagString: Untagged
@@ -23555,18 +23581,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1228626673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228626670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6212e5ff4b7ace4b930722353e66a89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1228626674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23623,18 +23637,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 3d89faa84d7bab94ab59ebcc78e28d3f, type: 3}
   - type: 2
     sprite: {fileID: 21300000, guid: 344e159a0b0f0524084c91ff489397bd, type: 3}
---- !u!114 &1228626676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228626670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885166725cac9ab45879de00db65f2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1234994698
 GameObject:
   m_ObjectHideFlags: 0
@@ -24572,11 +24574,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bea239d2cab9a4faad77980899a586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 4069463466789864488, guid: 9d2212861ae30444bbeeaaeab4425c82, type: 3}
+  _taskItemPrefab: {fileID: 4069463466789864488, guid: 9d2212861ae30444bbeeaaeab4425c82, type: 3}
   _content: {fileID: 791636253}
-  _acumulatedPoints: {fileID: 1960460150}
   _stateDropdown: {fileID: 71458219}
-  _detailsTask: {fileID: 1170953973}
 --- !u!1 &1285170750
 GameObject:
   m_ObjectHideFlags: 0
@@ -27645,50 +27645,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461170200}
   m_CullTransparentMesh: 1
---- !u!1 &1481453115
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1481453117}
-  - component: {fileID: 1481453116}
-  m_Layer: 0
-  m_Name: AppManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1481453116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481453115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 691b61e7a22ac554bac5bf0ba23cdbf1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1481453117
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481453115}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1487565902
 GameObject:
   m_ObjectHideFlags: 0
@@ -30933,7 +30889,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31327,7 +31283,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32366,12 +32322,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731596988}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -540, y: -960, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 181554927}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1744761024
 GameObject:
@@ -32670,7 +32626,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 181554928}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AppScreenManager, Assembly-CSharp
         m_MethodName: ChangeToScreen
         m_Mode: 2
@@ -37737,7 +37693,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1284051174}
         m_TargetAssemblyTypeName: TaskList, Assembly-CSharp
-        m_MethodName: SetListCategory
+        m_MethodName: RequestNewCategory
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -45721,7 +45677,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
-  - {fileID: 1731596991}
-  - {fileID: 1481453117}
+  - {fileID: 12619061}
   - {fileID: 181554927}
   - {fileID: 1228626672}

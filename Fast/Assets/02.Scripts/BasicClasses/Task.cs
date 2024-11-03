@@ -7,9 +7,7 @@ public class Task
     public TaskCategory category { get; private set; } 
     public TaskState state { get; private set; }
     public int points { get; private set; }
-    public string filePath { get; private set; }
     public string limitDate { get; private set; }
-    public bool hasFilePath => filePath != null && filePath != string.Empty;
 
     public Task(string description, TaskCategory category, int points, string limitDate = null)
     {
@@ -18,7 +16,6 @@ public class Task
         this.description = description;
         this.category = category;
         this.points = points;
-        this.filePath = string.Empty;
         this.limitDate = limitDate;
     }
 
@@ -29,7 +26,6 @@ public class Task
         this.category = Enum.Parse<TaskCategory>(data.category);
         this.points = data.points;
         this.state = Enum.Parse<TaskState>(data.state);
-        this.filePath = !string.IsNullOrEmpty(data.filePath) ? data.filePath : string.Empty;
         this.limitDate = data.limitDate;
     }
 
@@ -42,7 +38,6 @@ public class Task
             category = this.category.ToString(),
             points = this.points,
             state = this.state.ToString(),
-            filePath = this.filePath != null? this.filePath : string.Empty,
             limitDate = this.limitDate
         };
     }
@@ -50,11 +45,6 @@ public class Task
     public void UptateState(TaskState newState)
     {
         this.state = newState;
-    }
-
-    public void UpdateFilePath(string newPath)
-    {
-        this.filePath = newPath;
     }
 }
 
@@ -66,7 +56,6 @@ public class TaskData
     public string state;
     public string description;
     public int points;
-    public string filePath;
     public string limitDate;
 }
 
