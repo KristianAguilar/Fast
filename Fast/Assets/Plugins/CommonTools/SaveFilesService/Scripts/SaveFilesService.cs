@@ -58,7 +58,7 @@ namespace SaveFiles
             // File exist, load and return data
             string jsonTxt = File.ReadAllText(fileName);
             data = JsonUtility.FromJson<T>(jsonTxt);
-            Debug.Log($"{SERVICE_NAME}: file name loaded with success: {fileName}");
+            //Debug.Log($"{SERVICE_NAME}: file name loaded with success: {fileName}");
             return true;
         }
 

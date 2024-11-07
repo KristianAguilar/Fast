@@ -41,6 +41,14 @@ public class TaskList : MonoBehaviour
     private void Start()
     {
         AppDataManager.instance.OnTaskLoaded += LoadTasksItems;
+        //    _detailsTask.gameObject.SetActive(false);
+
+        //    TaskService.Instance.OnTouchTask += (Task task) =>
+        //    {
+        //        _detailsTask.gameObject.SetActive(true);
+        //        _detailsTask.Setup(task);
+        //    };
+
     }
 
     /// <summary>
@@ -123,24 +131,4 @@ public class TaskList : MonoBehaviour
             LoadTasksItems();
         }
     }
-
-    //private void Start()
-    //{
-    //    int instanceAmount = _content.childCount;
-    //    for (int i = 0; i < instanceAmount; i++)
-    //    {
-    //        GameObject child = _content.GetChild(i).gameObject;
-    //        Destroy(child);
-    //    }
-
-    //    _detailsTask.gameObject.SetActive(false);
-
-    //    TaskService.Instance.OnTouchTask += (Task task) =>
-    //    {
-    //        _detailsTask.gameObject.SetActive(true);
-    //        _detailsTask.Setup(task);
-    //    };
-    //}
-
-
 }
