@@ -41,6 +41,16 @@ public class RewardItemUI : MonoBehaviour
             _currentReward.UptateState(RewardState.Claim);
             AppDataManager.instance.SaveReward(_currentReward);
         }
+        else
+        {
+            NotificationService.Instance.AriseSimpleNotification(new OneOptionConfig
+            {
+                message = $"Faltan {_currentReward.cost - AppDataManager.instance.userData.currentPoints} puntos para reclamar esta recompensa",
+
+                buttonText = "Continuar",
+                type = NotificationType.Informative
+            });
+        }
     }
 
 }

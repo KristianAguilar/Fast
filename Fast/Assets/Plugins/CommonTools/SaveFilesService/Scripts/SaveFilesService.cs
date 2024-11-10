@@ -98,6 +98,11 @@ namespace SaveFiles
                 Path.Combine(Application.persistentDataPath, customFolder) :
                 Path.Combine(Application.persistentDataPath, DEFAULT_FOLDER);
             
+            if (!Directory.Exists(folderPath))
+            {
+                return new List<string>();
+            }
+
             List<string> pathFiles = Directory.GetFiles(folderPath).ToList();
             List<string> names = new List<string>();
             foreach (string path in pathFiles)

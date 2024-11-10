@@ -40,6 +40,8 @@ public class TaskList : MonoBehaviour
     {
         AppDataManager.instance.OnTaskLoaded += LoadTasksItems;
         AppDataManager.instance.OnTaskSaved += LoadTasksItems;
+        if (AppDataManager.instance.LoadedTasks != null)
+            LoadTasksItems();
     }
 
     /// <summary>
