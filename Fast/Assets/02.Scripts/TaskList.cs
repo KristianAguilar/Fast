@@ -18,16 +18,11 @@ public class TaskList : MonoBehaviour
     /// Dropdown to change the task list state.
     /// </summary>
     [SerializeField] private TMP_Dropdown _stateDropdown;
-    ///// <summary>
-    ///// Script to manage a selected task actions and see details
-    ///// </summary>
-    //[SerializeField] private DetailsTask _detailsTask;
 
     /// <summary>
     /// List of current tasks items show in the list
     /// </summary>
     private List<GameObject> _currrentTaskList = new List<GameObject>();
-
     /// <summary>
     /// Current tasks state to filter in the list.
     /// </summary>
@@ -36,19 +31,15 @@ public class TaskList : MonoBehaviour
     /// Current tasks category to filter in the list.
     /// </summary>
     private TaskCategory _currentCategory = TaskCategory.All;
-
+    /// <summary>
+    /// Task category suggested in the form on create a new task.
+    /// </summary>
+    public TaskCategory suggestedCategory => _currentCategory;
 
     private void Start()
     {
         AppDataManager.instance.OnTaskLoaded += LoadTasksItems;
-        //    _detailsTask.gameObject.SetActive(false);
-
-        //    TaskService.Instance.OnTouchTask += (Task task) =>
-        //    {
-        //        _detailsTask.gameObject.SetActive(true);
-        //        _detailsTask.Setup(task);
-        //    };
-
+        AppDataManager.instance.OnTaskSaved += LoadTasksItems;
     }
 
     /// <summary>
@@ -69,7 +60,7 @@ public class TaskList : MonoBehaviour
         foreach (Task task in tasks)
         {
             GameObject taskInstance = Instantiate(_taskItemPrefab, _content);
-            taskInstance.GetComponent<UITaskItem>().Setup(task);
+            taskInstance.GetComponent<TaskItemUI>().Setup(task);
             _currrentTaskList.Add(taskInstance);
         }
     }
@@ -131,4 +122,5 @@ public class TaskList : MonoBehaviour
             LoadTasksItems();
         }
     }
+
 }

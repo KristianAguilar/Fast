@@ -19,16 +19,31 @@ public class CreateReward : MonoBehaviour
 
     public void RequestNewReward()
     {
+        // Safe checks
         if (string.IsNullOrEmpty(_descriptionInputField.text) ||
             string.IsNullOrEmpty(_costInputField.text))
         {
             Debug.LogWarning("Try to create a new reward, but some fields are empty.");
             return;
         }
-        Reward reward = new Reward(_descriptionInputField.text, int.Parse(_costInputField.text));
-        bool result = RewardService.instance.SaveTask(reward);
+        int points = int.Parse(_costInputField.text);
+        if (points <= 0)
+        {
+            Debug.LogWarning($"Not valid points value: {points}");
+            return;
+        }
+
+        Reward reward = new Reward(_descriptionInputField.text, points);
+        // Reward is added to the local memory before the persistent memory, to
+        // be available on the OnSaveReward event send.
+        AppDataManager.instance.LoadedRewards.Add(reward);
+        // This method allow reload the reward list using the local data
+        // (avoid unnecessary reload memory files)
+        bool result = AppDataManager.instance.SaveReward(reward);
 
         if (result)
             this.gameObject.SetActive(false);
+        else
+            AppDataManager.instance.LoadedRewards.Remove(reward);
     }
 }

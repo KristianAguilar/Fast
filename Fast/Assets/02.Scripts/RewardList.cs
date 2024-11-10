@@ -38,14 +38,9 @@ public class RewardList : MonoBehaviour
     private void Start()
     {
         AppDataManager.instance.OnRewardsLoaded += LoadRewardsItems;
-
-        //_detailsReward.gameObject.SetActive(false);
-
-        //RewardService.instance.OnTouchReward += (Reward reward) =>
-        //{
-        //    _detailsReward.gameObject.SetActive(true);
-        //    _detailsReward.Setup(reward);
-        //};
+        AppDataManager.instance.OnRewardsSaved += LoadRewardsItems;
+        if (AppDataManager.instance.LoadedRewards != null)
+            LoadRewardsItems();
     }
 
     /// <summary>
@@ -64,7 +59,7 @@ public class RewardList : MonoBehaviour
         foreach (Reward reward in rewards)
         {
             GameObject rewardInstance = Instantiate(_rewardItemPrefab, _content);
-            rewardInstance.GetComponent<UIRewardItem>().Setup(reward);
+            rewardInstance.GetComponent<RewardItemUI>().Setup(reward);
             _currentRewardList.Add(rewardInstance);
         }
     }

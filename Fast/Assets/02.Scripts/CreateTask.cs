@@ -22,7 +22,7 @@ public class CreateTask : MonoBehaviour
 
     private void SetSugestedCategory()
     {
-        TaskCategory category = TaskService.Instance.taskCategory;
+        TaskCategory category = AppDataManager.instance.suggestedCategory;
 
         if (category != TaskCategory.All)
             _categoryDropdown.value = (int)category;
@@ -30,20 +30,32 @@ public class CreateTask : MonoBehaviour
 
     public void RequestNewTask()
     {
+        // Safe checks
         if (string.IsNullOrEmpty(_descriptionInputField.text) ||
             string.IsNullOrEmpty(_pointsInputField.text))
         {
             Debug.LogWarning("Try to create a new task, but some fields are empty.");
             return;
         }
+        int points = int.Parse(_pointsInputField.text);
+        TaskCategory category = (TaskCategory)_categoryDropdown.value;
+        if (points <= 0)
+        {
+            Debug.LogWarning($"Not valid points value: {points}");
+            return;
+        }
 
-        // this force the dropdown match the enum values
-        TaskCategory category = (TaskCategory) _categoryDropdown.value;
-        Task task = new Task(_descriptionInputField.text, category, int.Parse(_pointsInputField.text));
-        bool result = TaskService.Instance.SaveTask(task);
+        Task task = new Task(_descriptionInputField.text, category, points);
+        // Task is added to the local memory before the persistent memory, to
+        // be available on the OnSaveTask event send.
+        AppDataManager.instance.LoadedTasks.Add(task);
+        // This method allow reload the task list using the local data
+        // (avoid unnecessary reload memory files)
+        bool result = AppDataManager.instance.SaveTask(task);
 
         if (result)
             this.gameObject.SetActive(false);
+        else
+            AppDataManager.instance.LoadedTasks.Remove(task);
     }
-
 }

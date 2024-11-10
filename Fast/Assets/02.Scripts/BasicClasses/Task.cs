@@ -8,6 +8,10 @@ public class Task
     public TaskState state { get; private set; }
     public int points { get; private set; }
     public string limitDate { get; private set; }
+    /// <summary>
+    /// Suggested file name to save the task in memory.
+    /// </summary>
+    public string generatedFileName => $"task_{id}.json";
 
     public Task(string description, TaskCategory category, int points, string limitDate = null)
     {
@@ -19,7 +23,7 @@ public class Task
         this.limitDate = limitDate;
     }
 
-    public Task(TaskData data)
+    public Task(TaskSerialize data)
     {
         this.id = data.id;
         this.description = data.description;
@@ -29,9 +33,9 @@ public class Task
         this.limitDate = data.limitDate;
     }
 
-    public TaskData Serialize()
+    public TaskSerialize Serialize()
     {
-        return new TaskData()
+        return new TaskSerialize()
         {
             id = this.id,
             description = this.description,
@@ -49,7 +53,7 @@ public class Task
 }
 
 [System.Serializable]
-public class TaskData
+public class TaskSerialize
 {
     public string id;
     public string category;

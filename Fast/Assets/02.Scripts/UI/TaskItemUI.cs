@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITaskItem : MonoBehaviour
+public class TaskItemUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text _descriptionTxt;
     [SerializeField] private Image _categoryIconBg;
@@ -30,9 +30,17 @@ public class UITaskItem : MonoBehaviour
         _categoryIconBg.color = categorySprite.color;
     }
 
-    public void TouchTask()
+    public void CompleteTask()
     {
-        TaskService.Instance.OnTouchTask?.Invoke(_currentTask);
+        UserData userData = AppDataManager.instance.userData;
+
+        if (userData.TryToAddPoints(_currentTask.points))
+        {
+            AppDataManager.instance.SaveUserData();
+
+            _currentTask.UptateState(TaskState.Ready);
+            AppDataManager.instance.SaveTask(_currentTask);
+        }
     }
 
 }

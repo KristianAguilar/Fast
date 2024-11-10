@@ -15,7 +15,15 @@ namespace Services
         /// <summary>
         /// Icon related to task points
         /// </summary>
-        [SerializeField] public Sprite pointsIcon;
+        public Sprite pointsIcon;
+        /// <summary>
+        /// Reward close icon sprite
+        /// </summary>
+        public Sprite rewardIconClose;
+        /// <summary>
+        /// Reward open icon sprite
+        /// </summary>
+        public Sprite rewardIconOpen;
 
         private void Awake()
         {

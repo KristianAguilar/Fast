@@ -1,4 +1,5 @@
 using SaveFiles;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,7 +19,7 @@ public class AppDataManager : MonoBehaviour
     /// <summary>
     /// Class with all the user global data to save and load.
     /// </summary>
-    public UserGlobal userGlobalData { get; private set; }
+    public UserData userData { get; private set; }
     /// <summary>
     /// A suggeted category select option on create a new task.
     /// </summary>
@@ -37,9 +38,17 @@ public class AppDataManager : MonoBehaviour
     /// </summary>
     private static string USER_FILE= "userData.json";
     /// <summary>
-    /// True to request reload all the data.
+    /// Is set true on tasks persistent data change.
     /// </summary>
-    private bool _requestReloadData = true;
+    public bool requestReloadTasks;
+    /// <summary>
+    /// Is set true on rewards persistent data change.
+    /// </summary>
+    public bool requestReloadRewards;
+    /// <summary>
+    /// Is set true on user data persistent data change.
+    /// </summary>
+    public bool requestReloadUserData;
 
     /// <summary>
     /// Action event on tasks loaded from the persistent memory.
@@ -54,6 +63,19 @@ public class AppDataManager : MonoBehaviour
     /// </summary>
     public UnityAction OnUserDataLoaded;
 
+    /// <summary>
+    /// Action event on task saved in the persistent memory.
+    /// </summary>
+    public UnityAction OnTaskSaved;
+    /// <summary>
+    /// Action event on reward saved in the persistent memory.
+    /// </summary>
+    public UnityAction OnRewardsSaved;
+    /// <summary>
+    /// Action event on user data saved in the persistent memory.
+    /// </summary>
+    public UnityAction OnUserDataSaved;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -64,14 +86,29 @@ public class AppDataManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        requestReloadTasks = true;
+        requestReloadRewards = true;
+        requestReloadUserData = true;
+    }
+
     private void Update()
     {
-        if (_requestReloadData)
+        if (requestReloadTasks)
         {
             SearchAndLoadTasks();
+            requestReloadTasks = false;
+        }
+        if (requestReloadRewards)
+        {
             SearchAndLoadRewards();
+            requestReloadRewards = false;
+        }
+        if (requestReloadUserData)
+        { 
             SearchAndLoadUserData();
-            _requestReloadData = false;
+            requestReloadUserData = false;
         }
     }
 
@@ -84,7 +121,7 @@ public class AppDataManager : MonoBehaviour
         LoadedTasks = new List<Task>();
         foreach (string name in fileNames)
         {
-            TaskData data;
+            TaskSerialize data;
             if (SaveFilesService.TryToLoadDataFile(name, out data, TASKS_FOLDER))
             {
                 LoadedTasks.Add(new Task(data));
@@ -103,7 +140,7 @@ public class AppDataManager : MonoBehaviour
         LoadedRewards = new List<Reward>();
         foreach (string name in fileNames)
         {
-            RewardData data;
+            RewardSerialize data;
             if (SaveFilesService.TryToLoadDataFile(name, out data, REWARDS_FOLDER))
             {
                 LoadedRewards.Add(new Reward(data));
@@ -118,15 +155,16 @@ public class AppDataManager : MonoBehaviour
     /// </summary>
     private void SearchAndLoadUserData()
     {
-        UserGlobalData data;
+        UserDataSerialize data;
         if (SaveFilesService.TryToLoadDataFile(USER_FILE, out data))
         {
-            userGlobalData = new UserGlobal(data);
+            userData = new UserData(data);
             Debug.Log($"User data loaded with success !");
         }
         else
         {
-            userGlobalData = new UserGlobal();
+            userData = new UserData();
+            SaveUserData();
             Debug.Log($"User data can't be found, creating new data.");
         }
         OnUserDataLoaded?.Invoke();
@@ -139,5 +177,46 @@ public class AppDataManager : MonoBehaviour
     public void SetSuggestedTaskCategory(TaskCategory category)
     {
         suggestedCategory = category;
+    }
+
+    /// <summary>
+    /// Save the current user data in the persistent memory.
+    /// </summary>
+    /// <returns>true if was saved with success.</returns>
+    public bool SaveUserData()
+    {
+        UserDataSerialize data = userData.Serialize();
+        bool result = SaveFilesService.SaveDataFile<UserDataSerialize>(USER_FILE, data);
+        if (result) 
+            OnUserDataSaved?.Invoke();
+        return result;
+    }
+
+    /// <summary>
+    /// Save the current tasks in the persistent memory.
+    /// </summary>
+    /// <param name="task">Task to be saved</param>
+    /// <returns>true if was saved with success.</returns>
+    public bool SaveTask(Task task)
+    {
+        TaskSerialize data = task.Serialize();
+        bool result = SaveFilesService.SaveDataFile<TaskSerialize>(task.generatedFileName, data, TASKS_FOLDER);
+        if (result)
+            OnTaskSaved?.Invoke();
+        return result;
+    }
+
+    /// <summary>
+    /// Save the current rewards in the persistent memory.
+    /// </summary>
+    /// <param name="reward">Reward to be saved</param>
+    /// <returns>true if was saved with success.</returns>
+    public bool SaveReward(Reward reward)
+    {
+        RewardSerialize data = reward.Serialize();
+        bool result = SaveFilesService.SaveDataFile<RewardSerialize>(reward.generatedFileName, data, REWARDS_FOLDER);
+        if (result)
+            OnRewardsSaved?.Invoke();
+        return result;
     }
 }

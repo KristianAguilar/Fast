@@ -6,6 +6,10 @@ public class Reward
     public RewardState state { get; private set; }
     public int cost { get; private set; }
     public string description { get; private set; }
+    /// <summary>
+    /// Suggested file name to save the task in memory.
+    /// </summary>
+    public string generatedFileName => $"reward_{id}.json";
 
     public Reward(string description, int cost)
     {
@@ -15,7 +19,7 @@ public class Reward
         this.description = description;
     }
 
-    public Reward(RewardData data)
+    public Reward(RewardSerialize data)
     {
         this.id = data.id;
         this.state = Enum.Parse<RewardState>(data.state);
@@ -24,9 +28,9 @@ public class Reward
     }
 
 
-    public RewardData Serialize()
+    public RewardSerialize Serialize()
     {
-        return new RewardData()
+        return new RewardSerialize()
         {
             id = this.id,
             state = this.state.ToString(),
@@ -41,7 +45,7 @@ public class Reward
 }
 
 [System.Serializable]
-public class RewardData
+public class RewardSerialize
 {
     public string id;
     public string state;
