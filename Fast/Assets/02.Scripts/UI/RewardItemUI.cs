@@ -11,6 +11,19 @@ public class RewardItemUI : MonoBehaviour
     [SerializeField] private Image _icon;
     [SerializeField] private Image _bgIcon;
 
+    /// <summary>
+    /// Panel with all the options
+    /// </summary>
+    [SerializeField] private GameObject _optionsPanel;
+    /// <summary>
+    /// Pivot for the button to mark the reward as complete
+    /// </summary>
+    [SerializeField] private GameObject _completeRewardPivot;
+    /// <summary>
+    /// Pivot for the button to allow repeat the reward back to pending.
+    /// </summary>
+    [SerializeField] private GameObject _restartRewardPivot;
+
     private Reward _currentReward;
 
     public void Setup(Reward reward)
@@ -18,6 +31,8 @@ public class RewardItemUI : MonoBehaviour
         _currentReward = reward;
         _descriptionTxt.text = reward.description;
         _costTxt.text = reward.cost.ToString();
+        _restartRewardPivot.gameObject.SetActive(false);
+        _optionsPanel.gameObject.SetActive(false);
 
         if (reward.state == RewardState.Claim)
         {
@@ -25,6 +40,8 @@ public class RewardItemUI : MonoBehaviour
             _pointIcon.gameObject.SetActive(false);
             _icon.sprite = UIConfigService.Instance.rewardIconOpen;
             _bgIcon.color = Color.gray;
+            _restartRewardPivot.gameObject.SetActive(true);
+            _completeRewardPivot.gameObject.SetActive(false);
         }
         else
         {
@@ -32,6 +49,9 @@ public class RewardItemUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Mark the reward as complete and reduce the points to the total.
+    /// </summary>
     public void ClaimReward()
     {
         UserData userData = AppDataManager.instance.userData;
@@ -53,4 +73,12 @@ public class RewardItemUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Restart the state to the reward back to created
+    /// </summary>
+    public void RestartReward()
+    {
+        _currentReward.UptateState(RewardState.Created);
+        AppDataManager.instance.SaveReward(_currentReward);
+    }
 }
